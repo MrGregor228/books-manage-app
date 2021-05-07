@@ -2,10 +2,12 @@
 const net = require('net');
 // Функция логирования
 const logging = require('./logging');
+let client_info;
 // Настройка подключения клиента
 const client = net.connect(20202, 'localhost', () => {
+    client_info = `- [Client info: address: ${client.address().address}, port: ${client.address().port} ] -`;
     console.log('Connected to server!');
-
+    logging(`Client connected to server:\n${client_info}`);
     // Подключение модуля fs для работы с файлами
     const fs = require('fs');
     // Подключение модуля zlib для сжатия и декмопрессии данных
@@ -34,8 +36,7 @@ const client = net.connect(20202, 'localhost', () => {
         return books_id.max();
     };
 
-
-    logging("[CLIENT]\nЗапуск програми");
+    logging(`[CLIENT]\n${client_info}\nЗапуск програми`);
     // Определяем переменную в которой потом будем хранить разные вопросы
     let userRes;
 
@@ -81,7 +82,7 @@ const client = net.connect(20202, 'localhost', () => {
             console.log(`-> ${newBook.year}`);
 
             console.log("Нова книга успішно додана!");
-            logging(`Додана нова книга:\n--\nID: ${newBook.id}\nTitle: ${newBook.title}\nGenre: ${newBook.genre}\nAuthor: ${newBook.author}\nPublish house: ${newBook.publishhouse}\nLanguage: ${newBook.language}\nYear: ${newBook.year}\n--`);
+            logging(`[CLIENT]\n${client_info}\nДодана нова книга:\n--\nID: ${newBook.id}\nTitle: ${newBook.title}\nGenre: ${newBook.genre}\nAuthor: ${newBook.author}\nPublish house: ${newBook.publishhouse}\nLanguage: ${newBook.language}\nYear: ${newBook.year}\n--`);
 
             // Добавляем в массив книг новую книгу сделанную по классу Book
             books_array.push(new Book(newBook.id, newBook.title, newBook.genre, newBook.author, newBook.publishhouse, newBook.language, newBook.year));
@@ -101,7 +102,7 @@ const client = net.connect(20202, 'localhost', () => {
                 // Если ID книги совпадает с вводом пользователя
                 if (book.id == enter_id) {
                     console.log(`> ${book.title} - видалена з бази даних!`);
-                    logging(`${book.title} - видалена з бази даних`);
+                    logging(`[CLIENT]\n${client_info}\n${book.title} - видалена з бази даних`);
                     // Удаляем из массива книгу
                     books_array.splice(books_array.indexOf(book), 1);
                     // Записываем результат в БД
@@ -115,7 +116,7 @@ const client = net.connect(20202, 'localhost', () => {
             books_array.forEach(book => {
                 console.log(`[ID: ${book.id}]------- ${book.title} -------\nAuthor: ${book.author},\nPublishHouse: ${book.publishhouse},\nLanguage: ${book.language},\nYear: ${book.year}\n`);
             });
-            logging("Список книг переглянуто");
+            logging(`[CLIENT]\n${client_info}\nСписок книг переглянуто`);
 
         } else if (userRes === '4') {
             console.log(">>>>>>>>> [4] Знайти книгу <<<<<<<<<");
@@ -128,7 +129,7 @@ const client = net.connect(20202, 'localhost', () => {
                     // Сравниваем ID книги и приведённый к числу ответ юзера, т.к. его ответ приходит в виде строки
                     if (book.id == +search) {
                         console.log(`------- ${book.title} -------\nAuthor: ${book.author},\nPublishHouse: ${book.publishhouse},\nLanguage: ${book.language},\nYear: ${book.year}\n`);
-                        logging(`Виконаний пошук книги по ID, знайдена книга [ ${book.title} ]`);
+                        logging(`[CLIENT]\n${client_info}\nВиконанo пошук книги по ID, знайдена книга [ ${book.title} ]`);
                     }
                 });
             } else if (/^[a-zA-Z ]/.test(search)) {
@@ -137,13 +138,13 @@ const client = net.connect(20202, 'localhost', () => {
                     // Проверяем совпадает ли введёный юзером ответ с тем что написано полностью или частично в book.title, при этом приводим всё к LowrCase для более лёгкого сравнения 
                     if (book.title.toLowerCase().indexOf(search.toLowerCase()) != -1) {
                         console.log(`------- ${book.title} -------\nAuthor: ${book.author},\nPublishHouse: ${book.publishhouse},\nLanguage: ${book.language},\nYear: ${book.year}\n`);
-                        logging(`Виконаний пошук книги по назві, знайдена книга [ ${book.title} ]`);
+                        logging(`Виконанo пошук книги по назві, знайдена книга [ ${book.title} ]`);
                     }
                 });
             } else {
                 // Если не нашли совпадений то отвечаем что нет такой книги
                 console.log("Вашої книги немає в базі даних");
-                logging("Виконаний пошук книги, книга не знайдена");
+                logging(`[CLIENT]\n${client_info}\nВиконаний пошук книги, книга не знайдена`);
             }
 
         } else if (userRes === '5') {
@@ -159,18 +160,18 @@ const client = net.connect(20202, 'localhost', () => {
             // Архивация и запись текущего состояния бд
             inputFile.pipe(gzip).pipe(outputFile);
             console.log("Дані успішно збережені");
-            logging("Збережений новий образ бази даних");
+            logging(`[CLIENT]\n${client_info}\nЗбережений новий образ бази даних`);
 
         } else if (userRes === '6') {
             console.log(">>>>>>>>> [6] Відновити збережену версію БД <<<<<<<<<");
             books_array = JSON.parse(fs.readFileSync("db_copy/saved_db.json"));
             fs.writeFileSync("db/books_db.json", JSON.stringify(books_array));
             console.log("Дані успішно відновлені");
-            logging("Попередній образ бази даних був відновлений");
+            logging(`[CLIENT]\n${client_info}\nПопередній образ бази даних був відновлений`);
         } else if (userRes === '0') {
             // Если пользователь отвечает 0, то выходим из цикла и завершаем работу консольного приложения
             console.log("Вихід...");
-            logging("[CLIENT]\nВихід із програми");
+            logging("[CLIENT]\n${client_info}\nВихід із програми");
             client.end();
             return;
         }
@@ -182,10 +183,11 @@ client.on('error', function (ex) {
     console.log("\n[ ----------- Не удалось подключится к серверу ----------- ]\n");
     console.log(ex);
     console.log("\n[ ----------- Не удалось подключится к серверу ----------- ]\n");
+    logging(`[CLIENT]\n${client_info}\n[ ----------- Не удалось подключится к серверу ----------- ]\n`)
 });
 
 // Когда клиент отключился от сервера
 client.on('end', function () {
     console.log('Отключён от сервера');
-    logging('[CLIENT]\nОтключён от сервера');
+    logging(`[CLIENT]\n${client_info}\nОтключён от сервера`);
 });

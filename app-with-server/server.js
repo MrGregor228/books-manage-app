@@ -12,7 +12,7 @@ const server = net.createServer(function (socket) {
 
     socket.on('end', function () {
         console.log('client disconnected');
-        logging('[SERVER]\n--- Client disconnected ---');
+        logging(`[SERVER]\n--- Client disconnected ---\nAddres: ${socket.address().address}\nFamily: ${socket.address().family}\nPort: ${socket.address().port}`);
     });
     socket.pipe(socket);
 });

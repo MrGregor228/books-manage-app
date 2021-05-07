@@ -1,0 +1,51 @@
+--------- Fri May 07 2021 13:46:31 GMT+0300 (GMT+03:00)  ---------
+[CLIENT]
+- [Client info: address: 127.0.0.1, port: 36056 ] -
+Отключён от сервера
+
+--------- Fri May 07 2021 13:46:31 GMT+0300 (GMT+03:00)  ---------
+[SERVER]
+--- Client disconnected ---
+
+--------- Fri May 07 2021 13:46:31 GMT+0300 (GMT+03:00)  ---------
+[CLIENT]
+${client_info}
+Вихід із програми
+
+--------- Fri May 07 2021 13:46:30 GMT+0300 (GMT+03:00)  ---------
+[CLIENT]
+- [Client info: address: 127.0.0.1, port: 36056 ] -
+Запуск програми
+
+--------- Fri May 07 2021 13:46:30 GMT+0300 (GMT+03:00)  ---------
+Client connected to server:
+- [Client info: address: 127.0.0.1, port: 36056 ] -
+
+--------- Fri May 07 2021 13:46:30 GMT+0300 (GMT+03:00)  ---------
+[SERVER]
+--- Client connected ---
+Addres: ::ffff:127.0.0.1
+Family: IPv6
+Port: 20202
+
+--------- Fri May 07 2021 13:45:25 GMT+0300 (GMT+03:00)  ---------
+[SERVER]
+--- Client disconnected ---
+
+--------- Fri May 07 2021 13:45:25 GMT+0300 (GMT+03:00)  ---------
+[CLIENT]
+${client_info}
+Вихід із програми
+
+--------- Fri May 07 2021 13:44:01 GMT+0300 (GMT+03:00)  ---------
+[CLIENT]
+- [Client info: address: 127.0.0.1, port: 35999 ] -
+Запуск програми
+
+--------- Fri May 07 2021 13:44:01 GMT+0300 (GMT+03:00)  ---------
+Client connected to server:
+- [Client info: address: 127.0.0.1, port: 35999 ] -
+
+--------- Fri May 07 2021 13:43:44 GMT+0300 (GMT+03:00)  ---------
+[SERVER]
+Server is online!
